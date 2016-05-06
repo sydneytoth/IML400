@@ -27,6 +27,11 @@ img {
    max-width: 50%;
 }
 
+img.rotate {
+ rotation-point:50% 50%;
+ rotation:180deg;
+}
+
 
 .btn {
   display: inline-block;
