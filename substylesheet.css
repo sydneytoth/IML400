@@ -23,12 +23,10 @@ a {
 img { 
    border: 3px solid #021a40;
    margin: 2rem;
+   max-height: 50%;
+   max-width: 50%;
 }
 
-img.resize {
- max-height= 50%;
- max-width= 50%;
-}
 
 .btn {
   display: inline-block;
