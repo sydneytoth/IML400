@@ -24,6 +24,11 @@ img {
    border: 3px solid #021a40;
 }
 
+img.resize {
+ max-height= 50%;
+ max-width= 50%;
+}
+
 .btn {
   display: inline-block;
   margin-bottom: 1rem;
