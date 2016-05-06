@@ -14,6 +14,10 @@ a {
   text-decoration: none; }
   a:hover {
     text-decoration: underline; }
+    
+img { 
+   border: 3px solid #021a40;
+}
 
 .btn {
   display: inline-block;
