@@ -25,10 +25,11 @@ img {
    margin: 2rem;
    max-height: 50%;
    max-width: 50%;
+   transform: rotate{180deg}
 }
 
 img.rotate {
- transform: rotate{180deg};
+ 
 }
 
 
