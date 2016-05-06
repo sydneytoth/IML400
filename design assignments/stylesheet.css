@@ -41,6 +41,10 @@ img {
   background-color: rgba(255, 255, 255, 0.2);
   border-color: #ff8c00; }
 
+.links {
+  text-align: center;
+}
+
 @media screen and (min-width: 64em) {
   .btn {
     padding: 0.75rem 1rem; } }
