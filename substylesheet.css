@@ -28,8 +28,7 @@ img {
 }
 
 img.rotate {
- rotation-point:50% 50%;
- rotation:2p;
+ transform: rotate{180deg};
 }
 
 
