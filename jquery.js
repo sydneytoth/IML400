@@ -1,8 +1,11 @@
 $( document ).ready(function() {
  
-  $("links").hover(function(){
-   $(this).css("color", "#ffffff")
- })
+  $("project-name").hover(function(){
+   $(this).animate({
+    'color': '# '
+   }, 'slow');
+  }
+ );
  
  
 });
