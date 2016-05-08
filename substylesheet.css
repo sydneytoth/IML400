@@ -60,7 +60,10 @@ img.rotate {
 }
 
 .wrapper {
- padding: 10rem;
+ padding-top: 5rem;
+ margin-left:10rem;
+ margin-right:10rem;
+ 
 }
 /* video css via http://slicejack.com/fullscreen-html5-video-background-css/ */
 .fullscreen-bg {
