@@ -1,1 +1,4 @@
-<script src="jquery.js"></script>
+$( document ).ready(function() {
+ 
+ 
+});
