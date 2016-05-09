@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Sprites (Three.js)</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel=stylesheet href="css/base.css"/>
+</head>
+<body>
+
+<script src="js/Three.js"></script>
+<script src="js/Detector.js"></script>
+<script src="js/Stats.js"></script>
+<script src="js/OrbitControls.js"></script>
+<script src="js/THREEx.KeyboardState.js"></script>
+<script src="js/THREEx.FullScreen.js"></script>
+<script src="js/THREEx.WindowResize.js"></script>
+
+<!-- jQuery code to display an information button and box when clicked. -->
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/jquery-ui.js"></script>
+<link rel=stylesheet href="css/jquery-ui.css" />
+<link rel=stylesheet href="css/info.css"/>
+<script src="js/info.js"></script>
+<div id="infoButton"></div>
+<div id="infoBox" title="Demo Information">
+This three.js demo is part of a collection at
+<a href="http://stemkoski.github.io/Three.js/">http://stemkoski.github.io/Three.js/</a>
+</div>
+<!-- ------------------------------------------------------------ -->
+
+<div id="ThreeJS" style="position: absolute; left:0px; top:0px"></div>
+<script>
+/*
+	Three.js "tutorials by example"
+	Author: Lee Stemkoski
+	Date: July 2013 (three.js v59dev)
+*/
+// MAIN
+// standard global variables
+var container, scene, camera, renderer, controls, stats;
+var keyboard = new THREEx.KeyboardState();
+var clock = new THREE.Clock();
+// custom global variables
+var cube;
+init();
+animate();
+// FUNCTIONS 		
+function init() 
+{
+	// SCENE
+	scene = new THREE.Scene();
+	// CAMERA
+	var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+	var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+	camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+	scene.add(camera);
+	camera.position.set(0,150,400);
+	camera.lookAt(scene.position);	
+	// RENDERER
+	if ( Detector.webgl )
+		renderer = new THREE.WebGLRenderer( {antialias:true} );
+	else
+		renderer = new THREE.CanvasRenderer(); 
+	renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	container = document.getElementById( 'ThreeJS' );
+	container.appendChild( renderer.domElement );
+	
+	// EVENTS
+	THREEx.WindowResize(renderer, camera);
+	THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+	
+	// CONTROLS
+	controls = new THREE.OrbitControls( camera, renderer.domElement );
+	// STATS
+	stats = new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.bottom = '0px';
+	stats.domElement.style.zIndex = 100;
+	container.appendChild( stats.domElement );
+	
+	// LIGHT
+	var light = new THREE.PointLight(0xffffff);
+	light.position.set(0,250,0);
+	scene.add(light);
+	
+	// FLOOR ********************************************* changed to black ***************
+	var floorTexture = new THREE.ImageUtils.loadTexture( 'grayFloor.jpg' );
+	floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
+	floorTexture.repeat.set( 10, 10 );
+	var floorMaterial = new THREE.MeshBasicMaterial( { map: floorTexture, side: THREE.DoubleSide } );
+	var floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+	var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+	floor.position.y = -10;
+	floor.rotation.x = Math.PI / 2;
+	scene.add(floor);
+	
+	
+	var skyTex = THREE.ImageUtils.loadTexture( 'images/setDesign.jpg' );
+	// SKYBOX/FOG
+	var skyBoxGeometry = new THREE.CubeGeometry( 10000, 10000, 10000 );
+	var skyBoxMaterial = new THREE.MeshBasicMaterial( { map: skyTex, side: THREE.BackSide } );
+	var skyBox = new THREE.Mesh( skyBoxGeometry, skyBoxMaterial );
+	scene.add(skyBox);
+	//scene.fog = new THREE.FogExp2( 0xffffff, 0.00025 );
+	
+	////////////
+	// CUSTOM //
+	////////////
+	
+	var ballTexture = THREE.ImageUtils.loadTexture( 'images/redball.png' );
+	
+	//********************* time for the images *********************************
+	
+	//Les Maheu (1)
+	
+		// 1. create the image we are going to use
+	var maheuWriting = THREE.ImageUtils.loadTexture( 'images/maheuWriting.jpg' );
+	
+		//2. Create a material that uses the texture that we just created
+	var maheuWritingMaterial = new THREE.SpriteMaterial( { map: maheuWriting, useScreenCoordinates: false} );
+	
+	    //3. Create a sprite that has that material that we created assigned to it
+	var maheu1 = new THREE.Sprite( maheuWritingMaterial );
+	maheu1.position.set( -250, 100, -250 );
+	maheu1.scale.set( 150, 150*1.33, 1.0 );
+	
+		//4. Add it to the scene to be displayed
+	scene.add (maheu1 );
+	
+		// Note, you can assign the *same* material to *different* objects
+	
+	var maheuTitle = THREE.ImageUtils.loadTexture( 'images/maheuTitle.jpg' );
+	var maheuTitleMaterial = new THREE.SpriteMaterial( { map: maheuTitle, useScreenCoordinates: false } );
+	var maheu2 = new THREE.Sprite( maheuTitleMaterial );
+	maheu2.position.set( -250, 100, 0 );
+	maheu2.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( maheu2 );
+	
+	var maheuLook = THREE.ImageUtils.loadTexture( 'images/maheuLook.jpg' );
+	var maheuLookMaterial = new THREE.SpriteMaterial( { map: maheuLook, useScreenCoordinates: false} );
+	var maheu3 = new THREE.Sprite( maheuLookMaterial );
+	maheu3.position.set( -250, 100, 250 );
+	maheu3.scale.set( 175, 175 * 1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( maheu3 );
+	
+	
+	// Souvarine (2)
+
+	var souvarineWriting = THREE.ImageUtils.loadTexture( 'images/souvarineWriting.jpg' );
+	var souvarineWritingMaterial = new THREE.SpriteMaterial( { map: souvarineWriting, useScreenCoordinates: false} );
+    var souvarine1 = new THREE.Sprite( souvarineWritingMaterial );
+	souvarine1.position.set( -100, 100, -250 );
+	souvarine1.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( souvarine1 );
+	
+	var souvarineTitle = THREE.ImageUtils.loadTexture( 'images/souvarineTitle.jpg' );
+	souvarineTitleMaterial = new THREE.SpriteMaterial( { map: souvarineTitle, useScreenCoordinates: false } );
+	var souvarine2 = new THREE.Sprite( souvarineTitleMaterial );
+	souvarine2.position.set( -100, 100, 0 );
+	souvarine2.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( souvarine2 );
+	
+	var souvarineLook = THREE.ImageUtils.loadTexture( 'images/souvarineLook.jpg' );
+	var souvarineLookMaterial = new THREE.SpriteMaterial( { map: souvarineLook, useScreenCoordinates: false} );
+	var souvarine3 = new THREE.Sprite( souvarineLookMaterial );
+	souvarine3.position.set( -100, 100, 250 );
+	souvarine3.scale.set( 175, 175 * 1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( souvarine3 );
+	
+
+	
+	
+	//Rasseneur	(3)
+	
+	var rasseneurWriting = THREE.ImageUtils.loadTexture( 'images/rasseneurWriting.JPG' );
+	var rasseneurWritingMaterial = new THREE.SpriteMaterial( { map: rasseneurWriting, useScreenCoordinates: false } );
+	var rasseneur1 = new THREE.Sprite( rasseneurWritingMaterial );
+	rasseneur1.position.set( 50, 100, -250 );
+	rasseneur1.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( rasseneur1 );
+
+	var rasseneurTitle = THREE.ImageUtils.loadTexture( 'images/rasseneurTitle.JPG' );
+	var rasseneurTitleMaterial = new THREE.SpriteMaterial( { map: rasseneurTitle, useScreenCoordinates: false } );
+	var rasseneur2 = new THREE.Sprite( rasseneurTitleMaterial );
+	rasseneur2.position.set( 50, 100, 0 );
+	rasseneur2.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( rasseneur2 );
+	
+	var rasseneurLook = THREE.ImageUtils.loadTexture( 'images/rasseneurLook.JPG' );
+	var rasseneurLookMaterial = new THREE.SpriteMaterial( { map: rasseneurLook, useScreenCoordinates: false } );
+	var rasseneur3 = new THREE.Sprite( rasseneurLookMaterial );
+	rasseneur3.position.set( 50, 100, 250 );
+	rasseneur3.scale.set( 175, 175 * 1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( rasseneur3 );
+
+	//Etienne (4)
+	
+	var etienneWriting = THREE.ImageUtils.loadTexture( 'images/etienneWriting.jpg' );
+	var etienneWritingMaterial = new THREE.SpriteMaterial( { map: etienneWriting, useScreenCoordinates: false} );
+	var etienne1 = new THREE.Sprite( etienneWritingMaterial );
+	etienne1.position.set( 200, 100, -250 );
+	etienne1.scale.set( 150, 150*1.33, 1.0 );
+	scene.add (etienne1 );
+	
+	var etienneTitle = THREE.ImageUtils.loadTexture( 'images/etienneTitle.jpg' );
+	var etienneTitleMaterial = new THREE.SpriteMaterial( { map: etienneTitle, useScreenCoordinates: false } );
+	var etienne2 = new THREE.Sprite( etienneTitleMaterial );
+	etienne2.position.set( 200, 100, 0 );
+	etienne2.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( etienne2 );
+	
+	var etienneLook = THREE.ImageUtils.loadTexture( 'images/etiennelook.jpg' );
+	var etienneLookMaterial = new THREE.SpriteMaterial( { map: etienneLook, useScreenCoordinates: false} );
+	var etienne3 = new THREE.Sprite( etienneLookMaterial );
+	etienne3.position.set( 200, 100, 250);
+	etienne3.scale.set( 175, 175 * 1.33 , 1.0 ); // imageWidth, imageHeight
+	scene.add( etienne3 );
+	
+	
+	//Pluchart (5)
+	
+	
+	var pluchartWriting = THREE.ImageUtils.loadTexture( 'images/pluchartWriting.jpg' );
+	var pluchartWritingMaterial = new THREE.SpriteMaterial( { map: pluchartWriting, useScreenCoordinates: false} );
+	var pluchart1 = new THREE.Sprite( pluchartWritingMaterial );
+	pluchart1.position.set( 350, 100, -250 );
+	pluchart1.scale.set( 150, 150*1.33, 1.0 );
+	scene.add (pluchart1 );
+	
+	var pluchartTitle = THREE.ImageUtils.loadTexture( 'images/pluchartTitle.jpg' );
+	var pluchartTitleMaterial = new THREE.SpriteMaterial( { map: pluchartTitle, useScreenCoordinates: false } );
+	var pluchart2 = new THREE.Sprite( pluchartTitleMaterial );
+	pluchart2.position.set( 350, 100, 0 );
+	pluchart2.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( pluchart2 );
+	
+	var pluchartLook = THREE.ImageUtils.loadTexture( 'images/pluchartLook.jpg' );
+	var pluchartLookMaterial = new THREE.SpriteMaterial( { map: pluchartLook, useScreenCoordinates: false} );
+	var pluchart3 = new THREE.Sprite( pluchartLookMaterial );
+	pluchart3.position.set( 350, 100, 250 );
+	pluchart3.scale.set( 175, 175*1.33, 1.0 ); // imageWidth, imageHeight
+	scene.add( pluchart3 );
+	
+
+
+
+// 	var ballMaterial = new THREE.SpriteMaterial( { map: ballTexture, useScreenCoordinates: true, alignment: THREE.SpriteAlignment.topLeft  } );
+// 	var sprite = new THREE.Sprite( ballMaterial );
+// 	sprite.position.set( 50, 50, 0 );
+// 	sprite.scale.set( 64, 64, 1.0 ); // imageWidth, imageHeight
+// 	scene.add( sprite );
+// 	
+// 	var ballMaterial = new THREE.SpriteMaterial( { map: ballTexture, useScreenCoordinates: true, alignment: THREE.SpriteAlignment.bottomRight } );
+// 	var sprite1 = new THREE.Sprite( ballMaterial );
+// 	sprite1.position.set( window.innerWidth - 50, window.innerHeight - 50, 0 );
+// 	sprite1.scale.set( 64, 64, 1.0 ); // imageWidth, imageHeight
+// 	scene.add( sprite1 );
+	
+	
+}
+function animate() 
+{
+    requestAnimationFrame( animate );
+	render();		
+	update();
+}
+function update()
+{
+	if ( keyboard.pressed("z") ) 
+	{ 
+		// do something
+	}
+	
+	controls.update();
+	stats.update();
+}
+function render() 
+{
+	renderer.render( scene, camera );
+}
+</script>
+
+</body>
+</html>
