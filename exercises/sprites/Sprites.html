@@ -196,14 +196,14 @@ function init()
 
 	//Etienne (4)
 	
-	var etienneWriting = THREE.ImageUtils.loadTexture( 'images/etienneWriting.jpg' );
+	var etienneWriting = THREE.ImageUtils.loadTexture( 'images/etienneWriting.JPG' );
 	var etienneWritingMaterial = new THREE.SpriteMaterial( { map: etienneWriting, useScreenCoordinates: false} );
 	var etienne1 = new THREE.Sprite( etienneWritingMaterial );
 	etienne1.position.set( 200, 100, -250 );
 	etienne1.scale.set( 150, 150*1.33, 1.0 );
 	scene.add (etienne1 );
 	
-	var etienneTitle = THREE.ImageUtils.loadTexture( 'images/etienneTitle.jpg' );
+	var etienneTitle = THREE.ImageUtils.loadTexture( 'images/etienneTitle.JPG' );
 	var etienneTitleMaterial = new THREE.SpriteMaterial( { map: etienneTitle, useScreenCoordinates: false } );
 	var etienne2 = new THREE.Sprite( etienneTitleMaterial );
 	etienne2.position.set( 200, 100, 0 );
