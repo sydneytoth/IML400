@@ -147,14 +147,14 @@ function init()
 	
 	// Souvarine (2)
 
-	var souvarineWriting = THREE.ImageUtils.loadTexture( 'images/souvarineWriting.jpg' );
+	var souvarineWriting = THREE.ImageUtils.loadTexture( 'images/souvarineWriting.JPG' );
 	var souvarineWritingMaterial = new THREE.SpriteMaterial( { map: souvarineWriting, useScreenCoordinates: false} );
     var souvarine1 = new THREE.Sprite( souvarineWritingMaterial );
 	souvarine1.position.set( -100, 100, -250 );
 	souvarine1.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
 	scene.add( souvarine1 );
 	
-	var souvarineTitle = THREE.ImageUtils.loadTexture( 'images/souvarineTitle.jpg' );
+	var souvarineTitle = THREE.ImageUtils.loadTexture( 'images/souvarineTitle.JPG' );
 	souvarineTitleMaterial = new THREE.SpriteMaterial( { map: souvarineTitle, useScreenCoordinates: false } );
 	var souvarine2 = new THREE.Sprite( souvarineTitleMaterial );
 	souvarine2.position.set( -100, 100, 0 );
