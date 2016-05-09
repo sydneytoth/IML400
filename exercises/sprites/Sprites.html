@@ -115,7 +115,7 @@ function init()
 	//Les Maheu (1)
 	
 		// 1. create the image we are going to use
-	var maheuWriting = THREE.ImageUtils.loadTexture( 'images/maheuWriting.jpg' );
+	var maheuWriting = THREE.ImageUtils.loadTexture( 'images/maheuWriting.JPG' );
 	
 		//2. Create a material that uses the texture that we just created
 	var maheuWritingMaterial = new THREE.SpriteMaterial( { map: maheuWriting, useScreenCoordinates: false} );
@@ -130,14 +130,14 @@ function init()
 	
 		// Note, you can assign the *same* material to *different* objects
 	
-	var maheuTitle = THREE.ImageUtils.loadTexture( 'images/maheuTitle.jpg' );
+	var maheuTitle = THREE.ImageUtils.loadTexture( 'images/maheuTitle.JPG' );
 	var maheuTitleMaterial = new THREE.SpriteMaterial( { map: maheuTitle, useScreenCoordinates: false } );
 	var maheu2 = new THREE.Sprite( maheuTitleMaterial );
 	maheu2.position.set( -250, 100, 0 );
 	maheu2.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
 	scene.add( maheu2 );
 	
-	var maheuLook = THREE.ImageUtils.loadTexture( 'images/maheuLook.jpg' );
+	var maheuLook = THREE.ImageUtils.loadTexture( 'images/maheuLook.JPG' );
 	var maheuLookMaterial = new THREE.SpriteMaterial( { map: maheuLook, useScreenCoordinates: false} );
 	var maheu3 = new THREE.Sprite( maheuLookMaterial );
 	maheu3.position.set( -250, 100, 250 );
