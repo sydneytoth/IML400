@@ -228,14 +228,14 @@ function init()
 	pluchart1.scale.set( 150, 150*1.33, 1.0 );
 	scene.add (pluchart1 );
 	
-	var pluchartTitle = THREE.ImageUtils.loadTexture( 'images/pluchartTitle.jpg' );
+	var pluchartTitle = THREE.ImageUtils.loadTexture( 'images/pluchartTitle.JPG' );
 	var pluchartTitleMaterial = new THREE.SpriteMaterial( { map: pluchartTitle, useScreenCoordinates: false } );
 	var pluchart2 = new THREE.Sprite( pluchartTitleMaterial );
 	pluchart2.position.set( 350, 100, 0 );
 	pluchart2.scale.set( 150, 150*1.33, 1.0 ); // imageWidth, imageHeight
 	scene.add( pluchart2 );
 	
-	var pluchartLook = THREE.ImageUtils.loadTexture( 'images/pluchartLook.jpg' );
+	var pluchartLook = THREE.ImageUtils.loadTexture( 'images/pluchartLook.JPG' );
 	var pluchartLookMaterial = new THREE.SpriteMaterial( { map: pluchartLook, useScreenCoordinates: false} );
 	var pluchart3 = new THREE.Sprite( pluchartLookMaterial );
 	pluchart3.position.set( 350, 100, 250 );
